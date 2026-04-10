@@ -1,126 +1,47 @@
 import java.util.*;
 
-// Step 1: Custom Runtime Exception
-class CargoSafetyException extends RuntimeException {
-    public CargoSafetyException(String message) {
-        super(message);
-    }
-}
+public class uc16 {
 
-// Step 2: Goods Bogie Class
-class uc15 {
-    String shape;   // Rectangular / Cylindrical
-    String cargo;   // Assigned cargo
+    // Bubble Sort Method
+    public static void bubbleSort(int[] arr) {
+        int n = arr.length;
 
-    public uc15(String shape) {
-        this.shape = shape;
-    }
+        for (int i = 0; i < n - 1; i++) {
+            // Each pass
+            for (int j = 0; j < n - i - 1; j++) {
 
-    // Step 3: Safe Cargo Assignment
-    public void assignCargo(String cargoType) {
-        try {
-            // Unsafe condition
-            if (shape.equalsIgnoreCase("Rectangular") &&
-                    cargoType.equalsIgnoreCase("Petroleum")) {
+                // Compare adjacent elements
+                if (arr[j] > arr[j + 1]) {
 
-                throw new CargoSafetyException(
-                        "Unsafe: Cannot assign Petroleum to Rectangular bogie");
+                    // Swap
+                    int temp = arr[j];
+                    arr[j] = arr[j + 1];
+                    arr[j + 1] = temp;
+                }
             }
-
-            // Safe assignment
-            this.cargo = cargoType;
-            System.out.println("Cargo assigned successfully: " + cargoType);
-
-        } catch (CargoSafetyException e) {
-            System.out.println("Error: " + e.getMessage());
-
-        } finally {
-            System.out.println("Cargo assignment attempt completed.\n");
         }
     }
 
-    public String getCargo() {
-        return cargo;
+    // Utility to print array
+    public static void printArray(int[] arr) {
+        for (int val : arr) {
+            System.out.print(val + " ");
+        }
+        System.out.println();
     }
 
-    public String getShape() {
-        return shape;
-    }
-}
-
-// Step 4: Main Application
-public class CargoManagementApp {
     public static void main(String[] args) {
 
-        GoodsBogie b1 = new GoodsBogie("Cylindrical");
-        GoodsBogie b2 = new GoodsBogie("Rectangular");
+        // Step 1: Input array (Passenger bogie capacities)
+        int[] capacities = {72, 56, 24, 70, 60};
 
-        // Safe case
-        b1.assignCargo("Petroleum");
+        System.out.println("Before Sorting:");
+        printArray(capacities);
 
-        // Unsafe case
-        b2.assignCargo("Petroleum");
+        // Step 2: Apply Bubble Sort
+        bubbleSort(capacities);
 
-        // Program continues
-        b2.assignCargo("Grains");
-
-        System.out.println("Program continues safely...");
+        System.out.println("After Sorting:");
+        printArray(capacities);
     }
 }
-
-import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
-
-public class CargoManagementAppTest {
-
-    @Test
-    void testCargo_SafeAssignment() {
-        GoodsBogie bogie = new GoodsBogie("Cylindrical");
-
-        assertDoesNotThrow(() -> {
-            bogie.assignCargo("Petroleum");
-        });
-
-        assertEquals("Petroleum", bogie.getCargo());
-    }
-
-    @Test
-    void testCargo_UnsafeAssignmentHandled() {
-        GoodsBogie bogie = new GoodsBogie("Rectangular");
-
-        // Exception is handled internally, so no crash
-        bogie.assignCargo("Petroleum");
-
-        // Cargo should not be assigned
-        assertNull(bogie.getCargo());
-    }
-
-    @Test
-    void testCargo_CargoNotAssignedAfterFailure() {
-        GoodsBogie bogie = new GoodsBogie("Rectangular");
-
-        bogie.assignCargo("Petroleum");
-
-        assertNull(bogie.getCargo());
-    }
-
-    @Test
-    void testCargo_ProgramContinuesAfterException() {
-        GoodsBogie bogie = new GoodsBogie("Rectangular");
-
-        bogie.assignCargo("Petroleum");  // unsafe
-        bogie.assignCargo("Coal");       // safe after failure
-
-        assertEquals("Coal", bogie.getCargo());
-    }
-
-    @Test
-    void testCargo_FinallyBlockExecution() {
-        GoodsBogie bogie = new GoodsBogie("Rectangular");
-
-        // We can't directly assert finally block execution,
-        // but we ensure method completes without interruption
-        assertDoesNotThrow(() -> {
-            bogie.assignCargo("Petroleum");
-        });
-    }
