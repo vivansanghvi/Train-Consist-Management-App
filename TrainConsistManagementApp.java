@@ -1,47 +1,87 @@
 import java.util.*;
 
-public class uc16 {
+public class uc17 {
 
-    // Bubble Sort Method
-    public static void bubbleSort(int[] arr) {
-        int n = arr.length;
-
-        for (int i = 0; i < n - 1; i++) {
-            // Each pass
-            for (int j = 0; j < n - i - 1; j++) {
-
-                // Compare adjacent elements
-                if (arr[j] > arr[j + 1]) {
-
-                    // Swap
-                    int temp = arr[j];
-                    arr[j] = arr[j + 1];
-                    arr[j + 1] = temp;
-                }
-            }
-        }
-    }
-
-    // Utility to print array
-    public static void printArray(int[] arr) {
-        for (int val : arr) {
-            System.out.print(val + " ");
-        }
-        System.out.println();
+    // Method to sort bogie names
+    public static void sortBogieNames(String[] bogieNames) {
+        Arrays.sort(bogieNames);
     }
 
     public static void main(String[] args) {
 
-        // Step 1: Input array (Passenger bogie capacities)
-        int[] capacities = {72, 56, 24, 70, 60};
+        // Step 1: Input array
+        String[] bogies = {"Sleeper", "AC Chair", "First Class", "General", "Luxury"};
 
         System.out.println("Before Sorting:");
-        printArray(capacities);
+        System.out.println(Arrays.toString(bogies));
 
-        // Step 2: Apply Bubble Sort
-        bubbleSort(capacities);
+        // Step 2: Sorting using Arrays.sort()
+        sortBogieNames(bogies);
 
         System.out.println("After Sorting:");
-        printArray(capacities);
+        System.out.println(Arrays.toString(bogies));
+    }
+}
+
+
+
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+public class BogieNameSortAppTest {
+
+    @Test
+    void testSort_BasicAlphabeticalSorting() {
+        String[] arr = {"Sleeper","AC Chair","First Class","General","Luxury"};
+        BogieNameSortApp.sortBogieNames(arr);
+
+        assertArrayEquals(
+                new String[]{"AC Chair","First Class","General","Luxury","Sleeper"},
+                arr
+        );
+    }
+
+    @Test
+    void testSort_UnsortedInput() {
+        String[] arr = {"Luxury","General","Sleeper","AC Chair"};
+        BogieNameSortApp.sortBogieNames(arr);
+
+        assertArrayEquals(
+                new String[]{"AC Chair","General","Luxury","Sleeper"},
+                arr
+        );
+    }
+
+    @Test
+    void testSort_AlreadySortedArray() {
+        String[] arr = {"AC Chair","First Class","General"};
+        BogieNameSortApp.sortBogieNames(arr);
+
+        assertArrayEquals(
+                new String[]{"AC Chair","First Class","General"},
+                arr
+        );
+    }
+
+    @Test
+    void testSort_DuplicateBogieNames() {
+        String[] arr = {"Sleeper","AC Chair","Sleeper","General"};
+        BogieNameSortApp.sortBogieNames(arr);
+
+        assertArrayEquals(
+                new String[]{"AC Chair","General","Sleeper","Sleeper"},
+                arr
+        );
+    }
+
+    @Test
+    void testSort_SingleElementArray() {
+        String[] arr = {"Sleeper"};
+        BogieNameSortApp.sortBogieNames(arr);
+
+        assertArrayEquals(
+                new String[]{"Sleeper"},
+                arr
+        );
     }
 }
