@@ -1,13 +1,32 @@
 import java.util.*;
 
-public class uc18 {
+public class uc19 {
 
-    // Linear Search Method
-    public static boolean searchBogie(String[] bogieIds, String key) {
+    // Binary Search Method
+    public static boolean binarySearch(String[] bogieIds, String key) {
 
-        for (String id : bogieIds) {
-            if (id.equals(key)) {
-                return true; // Match found → early termination
+        // Step 1: Handle empty array
+        if (bogieIds == null || bogieIds.length == 0) {
+            return false;
+        }
+
+        // Step 2: Ensure array is sorted
+        Arrays.sort(bogieIds);
+
+        int low = 0;
+        int high = bogieIds.length - 1;
+
+        while (low <= high) {
+            int mid = (low + high) / 2;
+
+            int comparison = bogieIds[mid].compareTo(key);
+
+            if (comparison == 0) {
+                return true; // Found
+            } else if (comparison < 0) {
+                low = mid + 1; // Search right
+            } else {
+                high = mid - 1; // Search left
             }
         }
 
@@ -16,17 +35,15 @@ public class uc18 {
 
     public static void main(String[] args) {
 
-        // Step 1: Input array (unsorted bogie IDs)
-        String[] bogies = {"BG101", "BG205", "BG309", "BG412", "BG550"};
+        // Input (can be unsorted)
+        String[] bogies = {"BG309","BG101","BG550","BG205","BG412"};
 
-        String searchKey = "BG309";
+        String searchKey = "BG205";
 
         System.out.println("Searching for: " + searchKey);
 
-        // Step 2: Perform search
-        boolean found = searchBogie(bogies, searchKey);
+        boolean found = binarySearch(bogies, searchKey);
 
-        // Step 3: Display result
         if (found) {
             System.out.println("Bogie found!");
         } else {
@@ -45,54 +62,57 @@ public class uc18 {
 
 
 
-
-
-
-
-
-
-
-
-
-
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
-public class BogieSearchAppTest {
+public class BogieBinarySearchAppTest {
 
     @Test
-    void testSearch_BogieFound() {
+    void testBinarySearch_BogieFound() {
         String[] arr = {"BG101","BG205","BG309","BG412","BG550"};
 
-        assertTrue(BogieSearchApp.searchBogie(arr, "BG309"));
+        assertTrue(BogieBinarySearchApp.binarySearch(arr, "BG309"));
     }
 
     @Test
-    void testSearch_BogieNotFound() {
+    void testBinarySearch_BogieNotFound() {
         String[] arr = {"BG101","BG205","BG309","BG412","BG550"};
 
-        assertFalse(BogieSearchApp.searchBogie(arr, "BG999"));
+        assertFalse(BogieBinarySearchApp.binarySearch(arr, "BG999"));
     }
 
     @Test
-    void testSearch_FirstElementMatch() {
+    void testBinarySearch_FirstElementMatch() {
         String[] arr = {"BG101","BG205","BG309","BG412","BG550"};
 
-        assertTrue(BogieSearchApp.searchBogie(arr, "BG101"));
+        assertTrue(BogieBinarySearchApp.binarySearch(arr, "BG101"));
     }
 
     @Test
-    void testSearch_LastElementMatch() {
+    void testBinarySearch_LastElementMatch() {
         String[] arr = {"BG101","BG205","BG309","BG412","BG550"};
 
-        assertTrue(BogieSearchApp.searchBogie(arr, "BG550"));
+        assertTrue(BogieBinarySearchApp.binarySearch(arr, "BG550"));
     }
 
     @Test
-    void testSearch_SingleElementArray() {
+    void testBinarySearch_SingleElementArray() {
         String[] arr = {"BG101"};
 
-        assertTrue(BogieSearchApp.searchBogie(arr, "BG101"));
+        assertTrue(BogieBinarySearchApp.binarySearch(arr, "BG101"));
+    }
+
+    @Test
+    void testBinarySearch_EmptyArray() {
+        String[] arr = {};
+
+        assertFalse(BogieBinarySearchApp.binarySearch(arr, "BG101"));
+    }
+
+    @Test
+    void testBinarySearch_UnsortedInputHandled() {
+        String[] arr = {"BG309","BG101","BG550","BG205","BG412"};
+
+        assertTrue(BogieBinarySearchApp.binarySearch(arr, "BG205"));
     }
 }
-
