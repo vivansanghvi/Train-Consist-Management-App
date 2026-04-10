@@ -1,87 +1,98 @@
 import java.util.*;
 
-public class uc17 {
+public class uc18 {
 
-    // Method to sort bogie names
-    public static void sortBogieNames(String[] bogieNames) {
-        Arrays.sort(bogieNames);
+    // Linear Search Method
+    public static boolean searchBogie(String[] bogieIds, String key) {
+
+        for (String id : bogieIds) {
+            if (id.equals(key)) {
+                return true; // Match found → early termination
+            }
+        }
+
+        return false; // Not found
     }
 
     public static void main(String[] args) {
 
-        // Step 1: Input array
-        String[] bogies = {"Sleeper", "AC Chair", "First Class", "General", "Luxury"};
+        // Step 1: Input array (unsorted bogie IDs)
+        String[] bogies = {"BG101", "BG205", "BG309", "BG412", "BG550"};
 
-        System.out.println("Before Sorting:");
-        System.out.println(Arrays.toString(bogies));
+        String searchKey = "BG309";
 
-        // Step 2: Sorting using Arrays.sort()
-        sortBogieNames(bogies);
+        System.out.println("Searching for: " + searchKey);
 
-        System.out.println("After Sorting:");
-        System.out.println(Arrays.toString(bogies));
+        // Step 2: Perform search
+        boolean found = searchBogie(bogies, searchKey);
+
+        // Step 3: Display result
+        if (found) {
+            System.out.println("Bogie found!");
+        } else {
+            System.out.println("Bogie not found.");
+        }
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
-public class BogieNameSortAppTest {
+public class BogieSearchAppTest {
 
     @Test
-    void testSort_BasicAlphabeticalSorting() {
-        String[] arr = {"Sleeper","AC Chair","First Class","General","Luxury"};
-        BogieNameSortApp.sortBogieNames(arr);
+    void testSearch_BogieFound() {
+        String[] arr = {"BG101","BG205","BG309","BG412","BG550"};
 
-        assertArrayEquals(
-                new String[]{"AC Chair","First Class","General","Luxury","Sleeper"},
-                arr
-        );
+        assertTrue(BogieSearchApp.searchBogie(arr, "BG309"));
     }
 
     @Test
-    void testSort_UnsortedInput() {
-        String[] arr = {"Luxury","General","Sleeper","AC Chair"};
-        BogieNameSortApp.sortBogieNames(arr);
+    void testSearch_BogieNotFound() {
+        String[] arr = {"BG101","BG205","BG309","BG412","BG550"};
 
-        assertArrayEquals(
-                new String[]{"AC Chair","General","Luxury","Sleeper"},
-                arr
-        );
+        assertFalse(BogieSearchApp.searchBogie(arr, "BG999"));
     }
 
     @Test
-    void testSort_AlreadySortedArray() {
-        String[] arr = {"AC Chair","First Class","General"};
-        BogieNameSortApp.sortBogieNames(arr);
+    void testSearch_FirstElementMatch() {
+        String[] arr = {"BG101","BG205","BG309","BG412","BG550"};
 
-        assertArrayEquals(
-                new String[]{"AC Chair","First Class","General"},
-                arr
-        );
+        assertTrue(BogieSearchApp.searchBogie(arr, "BG101"));
     }
 
     @Test
-    void testSort_DuplicateBogieNames() {
-        String[] arr = {"Sleeper","AC Chair","Sleeper","General"};
-        BogieNameSortApp.sortBogieNames(arr);
+    void testSearch_LastElementMatch() {
+        String[] arr = {"BG101","BG205","BG309","BG412","BG550"};
 
-        assertArrayEquals(
-                new String[]{"AC Chair","General","Sleeper","Sleeper"},
-                arr
-        );
+        assertTrue(BogieSearchApp.searchBogie(arr, "BG550"));
     }
 
     @Test
-    void testSort_SingleElementArray() {
-        String[] arr = {"Sleeper"};
-        BogieNameSortApp.sortBogieNames(arr);
+    void testSearch_SingleElementArray() {
+        String[] arr = {"BG101"};
 
-        assertArrayEquals(
-                new String[]{"Sleeper"},
-                arr
-        );
+        assertTrue(BogieSearchApp.searchBogie(arr, "BG101"));
     }
 }
+
