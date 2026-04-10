@@ -1,44 +1,47 @@
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
- * ============================================================
- * MAIN CLASS – UseCase6TrainConsistMgmt
- * ============================================================
- *
- * Use Case 6: Map Bogie to Capacity (HashMap)
- *
- * Description:
- * Associates each bogie with its seating or load capacity
- * using key–value mapping.
- *
- * - Creates a HashMap
- * - Inserts bogie-capacity pairs
- * - Iterates through entries
- * - Displays capacity details
- *
- * Author: Anish
- * Version: 6.0
+ * Use Case 8: Filter Passenger Bogies Using Streams
+ * Demonstrates filtering using Java Stream API
  */
 public class TrainConsistentManagementApp{
-    public static void main(String[] args){
-        System.out.println("===============================================");
-        System.out.println(" UC6 - Map Bogie to Capacity (HashMap) ");
-        System.out.println("===============================================\n");
+    static class Bogie{
+        String name;
+        int capacity;
 
-        Map<String, Integer> capacityMap=new HashMap<>();
-
-        capacityMap.put("Sleeper", 72);
-        capacityMap.put("AC Chair", 56);
-        capacityMap.put("First Class", 24);
-        capacityMap.put("Cargo", 120);
-
-        System.out.println("Bogie Capacity Details:");
-
-        for(Map.Entry<String, Integer> entry : capacityMap.entrySet()){
-            System.out.println(entry.getKey()+" -> "+entry.getValue());
+        Bogie(String name, int capacity){
+            this.name=name;
+            this.capacity=capacity;
         }
 
-        System.out.println("\nUC6 bogie-capacity mapping completed......");
+        @Override
+        public String toString(){
+            return name+" -> "+capacity;
+        }
+    }
+
+    public static void main(String[] args){
+        System.out.println("\n========================================");
+        System.out.println(" UC8: Filter Passenger Bogies Using Streams ");
+        System.out.println("========================================\n");
+
+        List<Bogie> bogies=new ArrayList<>();
+        bogies.add(new Bogie("Sleeper",72));
+        bogies.add(new Bogie("AC Chair",56));
+        bogies.add(new Bogie("First Class",24));
+        bogies.add(new Bogie("General",90));
+
+        System.out.println("All Bogies:");
+        bogies.forEach(System.out::println);
+
+        int threshold=60;
+
+        List<Bogie> filteredBogies=bogies.stream().filter(b->b.capacity>threshold).collect(Collectors.toList());
+
+        System.out.println("\nFiltered Bogies (Capacity > "+threshold+"):");
+        filteredBogies.forEach(System.out::println);
+
+        System.out.println("\nUC8 Filtering completed......");
     }
 }
